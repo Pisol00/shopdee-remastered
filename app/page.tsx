@@ -69,7 +69,7 @@ export default function Home() {
   const heroBanners = [
     {
       id: 1,
-      image: "/bg1.jpg",
+      image: "/hero-homepage/hero-summer-collection.jpg",
       title: "Summer Collection 2025",
       subtitle: "Discover the latest trends",
       buttonText: "Shop Now",
@@ -77,7 +77,7 @@ export default function Home() {
     },
     {
       id: 2,
-      image: "/bg2.jpg",
+      image: "/hero-homepagehero-new-arrivals.jpg",
       title: "New Arrivals",
       subtitle: "Fresh styles just for you",
       buttonText: "Explore",
@@ -85,7 +85,7 @@ export default function Home() {
     },
     {
       id: 3,
-      image: "/bg3.jpg",
+      image: "/hero-homepage/hero-big-sale.jpg",
       title: "Big Sale",
       subtitle: "Up to 50% off on selected items",
       buttonText: "Shop Sale",
@@ -122,11 +122,11 @@ export default function Home() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    objectPosition: banner.image.includes('bg1.jpg') 
+                    objectPosition: banner.image.includes('hero-summer-collection.jpg') 
                       ? 'center 25%' 
-                      : banner.image.includes('bg2.jpg')
+                      : banner.image.includes('hero-new-arrivals.jpg')
                       ? 'center 25%'
-                      : banner.image.includes('bg3.jpg')
+                      : banner.image.includes('hero-big-sale.jpg')
                       ? 'center 0%'
                       : 'center center',
                   }}
