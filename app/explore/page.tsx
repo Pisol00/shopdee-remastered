@@ -343,19 +343,15 @@ export default function ExplorePage() {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "white" }}>
-      {/* Top Header Bar - Sticky */}
+      {/* Top Header Bar */}
       <Box
         sx={{
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
           bgcolor: "white",
           borderBottom: "1px solid #e0e0e0",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
         }}
       >
         <Container maxWidth="xl">
-          <Box sx={{ py: 2 }}>
+          <Box sx={{ py: 3 }}>
             {/* Breadcrumb */}
             <Box sx={{ mb: 2 }}>
               <Typography variant="body2" color="text.secondary">
@@ -526,125 +522,21 @@ export default function ExplorePage() {
       </Drawer>
 
       {/* Main Content */}
-      <Container maxWidth="xl" sx={{ pb: 4 }}>
+      <Container maxWidth="xl" sx={{ py: 4 }}>
         <Box sx={{ display: "flex", gap: 3, flexDirection: { xs: "column", md: "row" } }}>
-          {/* Desktop Sidebar */}
-          <Box sx={{ display: { xs: "none", md: "block" }, width: { md: "280px" }, flexShrink: 0 }}>
+          {/* Desktop Sidebar - Collapsible */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "block" },
+              width: { md: "280px" },
+              flexShrink: 0,
+            }}
+          >
             <FilterSidebar />
           </Box>
 
           {/* Products Section */}
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            {/* Search & Sort Bar */}
-            <Box sx={{ mb: 3 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: 2,
-                  mb: 2,
-                }}
-              >
-                <Typography variant="body1" color="text.secondary">
-                  {filteredCollections.length} {filteredCollections.length === 1 ? "product" : "products"} found
-                </Typography>
-
-                <Box sx={{ display: "flex", gap: 2, alignItems: "center", flexWrap: "wrap" }}>
-                  {/* Search Bar */}
-                  <TextField
-                    size="small"
-                    placeholder="Search collections..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    slotProps={{
-                      input: {
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Search sx={{ fontSize: 20 }} />
-                          </InputAdornment>
-                        ),
-                        endAdornment: searchQuery && (
-                          <InputAdornment position="end">
-                            <IconButton size="small" onClick={() => setSearchQuery("")}>
-                              <Close fontSize="small" />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      },
-                    }}
-                    sx={{
-                      minWidth: { xs: "100%", sm: 250 },
-                      bgcolor: "white",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "#e0e0e0",
-                        },
-                      },
-                    }}
-                  />
-
-                  {/* Sort Dropdown */}
-                  <FormControl size="small" sx={{ minWidth: { xs: "100%", sm: 180 } }}>
-                    <Select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      displayEmpty
-                      sx={{ bgcolor: "white" }}
-                    >
-                      <MenuItem value="featured">Featured</MenuItem>
-                      <MenuItem value="price-low">Price: Low to High</MenuItem>
-                      <MenuItem value="price-high">Price: High to Low</MenuItem>
-                      <MenuItem value="name-asc">Name: A to Z</MenuItem>
-                      <MenuItem value="name-desc">Name: Z to A</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Box>
-
-              {/* Active Filter Chips */}
-              {activeFiltersCount > 0 && (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                  {selectedCategories.map((catId) => {
-                    const category = categories.find((c) => c.id === catId);
-                    return (
-                      <Chip
-                        key={`cat-${catId}`}
-                        label={category?.name}
-                        onDelete={() => removeFilter("category", catId)}
-                        size="small"
-                        sx={{ bgcolor: "white" }}
-                      />
-                    );
-                  })}
-                  {selectedBrands.map((brandId) => {
-                    const brand = brands.find((b) => b.id === brandId);
-                    return (
-                      <Chip
-                        key={`brand-${brandId}`}
-                        label={brand?.name}
-                        onDelete={() => removeFilter("brand", brandId)}
-                        size="small"
-                        sx={{ bgcolor: "white" }}
-                      />
-                    );
-                  })}
-                  {selectedPriceRanges.map((range) => {
-                    const priceRange = priceRanges.find((r) => r.value === range);
-                    return (
-                      <Chip
-                        key={`price-${range}`}
-                        label={priceRange?.label}
-                        onDelete={() => removeFilter("price", range)}
-                        size="small"
-                        sx={{ bgcolor: "white" }}
-                      />
-                    );
-                  })}
-                </Box>
-              )}
-            </Box>
 
             {/* Products Grid */}
             {filteredCollections.length > 0 ? (
@@ -658,7 +550,7 @@ export default function ExplorePage() {
                       md: "repeat(3, 1fr)",
                       lg: "repeat(3, 1fr)",
                     },
-                    gap: 2.5,
+                    gap: { xs: 2, md: 3 },
                   }}
                 >
                   {paginatedCollections.map((collection) => (
@@ -666,14 +558,16 @@ export default function ExplorePage() {
                       <Card
                         sx={{
                           height: "100%",
-                          border: "1px solid #f0f0f0",
-                          borderRadius: 2,
-                          transition: "all 0.3s ease",
+                          border: "1px solid #e0e0e0",
+                          borderRadius: 1,
+                          transition: "all 0.2s ease",
                           position: "relative",
                           "&:hover": {
-                            transform: "translateY(-6px)",
-                            boxShadow: "0 12px 24px rgba(0,0,0,0.15)",
-                            borderColor: "#e0e0e0",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            borderColor: "#bdbdbd",
+                            "& .product-image": {
+                              transform: "scale(1.05)",
+                            },
                           },
                         }}
                       >
@@ -692,8 +586,10 @@ export default function ExplorePage() {
                               top: 8,
                               right: 8,
                               bgcolor: "white",
-                              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                               zIndex: 1,
+                              width: 32,
+                              height: 32,
                               "&:hover": {
                                 bgcolor: "white",
                                 transform: "scale(1.1)",
@@ -702,59 +598,67 @@ export default function ExplorePage() {
                             size="small"
                           >
                             {favorites.includes(collection.id) ? (
-                              <Favorite sx={{ color: "#e74c3c", fontSize: 20 }} />
+                              <Favorite sx={{ color: "#e74c3c", fontSize: 18 }} />
                             ) : (
-                              <FavoriteBorder sx={{ fontSize: 20 }} />
+                              <FavoriteBorder sx={{ fontSize: 18 }} />
                             )}
                           </IconButton>
 
-                          <CardMedia
-                            component="img"
-                            image={collection.primary_image.image_url}
-                            alt={collection.name}
-                            sx={{
-                              height: { xs: 200, sm: 250, md: 280 },
-                              objectFit: "cover",
-                              bgcolor: "#f5f5f5",
-                            }}
-                          />
-                          <CardContent sx={{ p: { xs: 1.5, md: 2 } }}>
+                          <Box sx={{ overflow: "hidden", position: "relative" }}>
+                            <CardMedia
+                              component="img"
+                              image={collection.primary_image.image_url}
+                              alt={collection.name}
+                              className="product-image"
+                              sx={{
+                                height: { xs: 200, sm: 250, md: 300 },
+                                objectFit: "cover",
+                                bgcolor: "#f5f5f5",
+                                transition: "transform 0.3s ease",
+                              }}
+                            />
+                          </Box>
+
+                          <CardContent sx={{ p: 2 }}>
                             <Typography
-                              variant="h6"
+                              variant="body2"
                               component="div"
                               fontWeight="600"
                               sx={{
-                                fontSize: { xs: "0.875rem", md: "1rem" },
-                                mb: 0.5,
+                                fontSize: { xs: "0.875rem", md: "0.95rem" },
+                                mb: 1,
                                 color: "#1a1a1a",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                minHeight: "2.8em",
+                                lineHeight: 1.4,
                               }}
                             >
                               {collection.name}
                             </Typography>
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              sx={{
-                                fontSize: { xs: "0.7rem", md: "0.75rem" },
-                                display: "block",
-                                mb: 0.5,
-                              }}
-                            >
-                              Starting From
-                            </Typography>
-                            <Typography
-                              variant="h6"
-                              fontWeight="bold"
-                              sx={{
-                                fontSize: { xs: "1rem", md: "1.125rem" },
-                                color: "#667eea",
-                              }}
-                            >
-                              ฿{collection.min_price.toLocaleString()}
-                            </Typography>
+
+                            <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
+                              <Typography
+                                variant="h6"
+                                fontWeight="bold"
+                                sx={{
+                                  fontSize: { xs: "1.125rem", md: "1.25rem" },
+                                  color: "#1a1a1a",
+                                }}
+                              >
+                                ฿{collection.min_price.toLocaleString()}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ fontSize: "0.75rem" }}
+                              >
+                                起
+                              </Typography>
+                            </Box>
                           </CardContent>
                         </Link>
                       </Card>
@@ -764,17 +668,29 @@ export default function ExplorePage() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      mt: 6,
+                      py: 3,
+                      borderTop: "1px solid #e0e0e0",
+                    }}
+                  >
                     <Pagination
                       count={totalPages}
                       page={page}
-                      onChange={(_, value) => setPage(value)}
-                      color="primary"
+                      onChange={(_, value) => {
+                        setPage(value);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
                       size="large"
                       sx={{
                         "& .MuiPaginationItem-root": {
+                          fontSize: "1rem",
                           "&.Mui-selected": {
                             bgcolor: "black",
+                            color: "white",
                             "&:hover": {
                               bgcolor: "#333",
                             },
@@ -786,26 +702,45 @@ export default function ExplorePage() {
                 )}
               </>
             ) : (
-              <Box sx={{ textAlign: "center", py: 10 }}>
-                <Search sx={{ fontSize: 80, color: "text.secondary", mb: 2 }} />
-                <Typography variant="h5" color="text.secondary" fontWeight="600" sx={{ mb: 1 }}>
-                  No products found
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Try adjusting your filters or search query
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={clearAllFilters}
+              <Box sx={{ textAlign: "center", py: 12 }}>
+                <Box
                   sx={{
-                    bgcolor: "black",
-                    "&:hover": {
-                      bgcolor: "#333",
-                    },
+                    width: 120,
+                    height: 120,
+                    mx: "auto",
+                    mb: 3,
+                    borderRadius: "50%",
+                    bgcolor: "#f5f5f5",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  Clear All Filters
-                </Button>
+                  <Search sx={{ fontSize: 60, color: "text.secondary" }} />
+                </Box>
+                <Typography variant="h5" fontWeight="600" sx={{ mb: 1 }}>
+                  No products found
+                </Typography>
+                <Typography variant="body1" color="text.secondary" sx={{ mb: 3, maxWidth: 400, mx: "auto" }}>
+                  We couldn&apos;t find any products matching your criteria. Try adjusting your filters or search term.
+                </Typography>
+                {activeFiltersCount > 0 && (
+                  <Button
+                    variant="contained"
+                    onClick={clearAllFilters}
+                    sx={{
+                      bgcolor: "black",
+                      textTransform: "none",
+                      px: 4,
+                      py: 1.5,
+                      "&:hover": {
+                        bgcolor: "#333",
+                      },
+                    }}
+                  >
+                    Clear All Filters
+                  </Button>
+                )}
               </Box>
             )}
           </Box>
