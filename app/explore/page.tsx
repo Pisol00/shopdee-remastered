@@ -24,6 +24,7 @@ import {
   Divider,
   Badge,
   Stack,
+  Grid,
 } from "@mui/material";
 import {
   FilterList,
@@ -45,7 +46,7 @@ export default function ExplorePage() {
   const [page, setPage] = useState(1);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const itemsPerPage = 15;
+  const itemsPerPage = 20;
 
   // Filter collections based on selected filters
   let filteredCollections = allCollections.filter((collection) => {
@@ -541,32 +542,30 @@ export default function ExplorePage() {
             {/* Products Grid */}
             {filteredCollections.length > 0 ? (
               <>
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: {
-                      xs: "repeat(2, 1fr)",
-                      sm: "repeat(2, 1fr)",
-                      md: "repeat(3, 1fr)",
-                      lg: "repeat(3, 1fr)",
-                    },
-                    gap: { xs: 2, md: 3 },
-                  }}
-                >
+                <Grid container spacing={{ xs: 2, md: 3 }}>
                   {paginatedCollections.map((collection) => (
-                    <Box key={collection.id}>
+                    <Grid 
+                      key={collection.id}
+                      size={{ xs: 6, sm: 4, md: 3, lg: 3 }}
+                    >
                       <Card
                         sx={{
                           height: "100%",
-                          border: "1px solid #e0e0e0",
-                          borderRadius: 1,
-                          transition: "all 0.2s ease",
+                          border: "none",
+                          borderRadius: 3,
+                          overflow: "hidden",
+                          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                           position: "relative",
+                          bgcolor: "white",
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
                           "&:hover": {
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                            borderColor: "#bdbdbd",
+                            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                            transform: "translateY(-4px)",
                             "& .product-image": {
-                              transform: "scale(1.05)",
+                              transform: "scale(1.08)",
+                            },
+                            "& .favorite-btn": {
+                              opacity: 1,
                             },
                           },
                         }}
@@ -577,84 +576,99 @@ export default function ExplorePage() {
                         >
                           {/* Favorite Button */}
                           <IconButton
+                            className="favorite-btn"
                             onClick={(e) => {
                               e.preventDefault();
                               toggleFavorite(collection.id);
                             }}
                             sx={{
                               position: "absolute",
-                              top: 8,
-                              right: 8,
-                              bgcolor: "white",
-                              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                              zIndex: 1,
-                              width: 32,
-                              height: 32,
+                              top: 12,
+                              right: 12,
+                              bgcolor: "rgba(255, 255, 255, 0.95)",
+                              backdropFilter: "blur(8px)",
+                              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                              zIndex: 2,
+                              width: 36,
+                              height: 36,
+                              opacity: { xs: 1, md: 0 },
+                              transition: "all 0.2s ease",
                               "&:hover": {
                                 bgcolor: "white",
-                                transform: "scale(1.1)",
+                                transform: "scale(1.15)",
+                                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                               },
                             }}
                             size="small"
                           >
                             {favorites.includes(collection.id) ? (
-                              <Favorite sx={{ color: "#e74c3c", fontSize: 18 }} />
+                              <Favorite sx={{ color: "#e74c3c", fontSize: 20 }} />
                             ) : (
-                              <FavoriteBorder sx={{ fontSize: 18 }} />
+                              <FavoriteBorder sx={{ fontSize: 20, color: "#333" }} />
                             )}
                           </IconButton>
 
-                          <Box sx={{ overflow: "hidden", position: "relative" }}>
+                          <Box 
+                            sx={{ 
+                              overflow: "hidden", 
+                              position: "relative",
+                              bgcolor: "#fafafa",
+                            }}
+                          >
                             <CardMedia
                               component="img"
                               image={collection.primary_image.image_url}
                               alt={collection.name}
                               className="product-image"
                               sx={{
-                                height: { xs: 200, sm: 250, md: 300 },
+                                height: { xs: 220, sm: 260, md: 320 },
                                 objectFit: "cover",
-                                bgcolor: "#f5f5f5",
-                                transition: "transform 0.3s ease",
+                                transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                               }}
                             />
                           </Box>
 
-                          <CardContent sx={{ p: 2 }}>
+                          <CardContent sx={{ p: { xs: 2, md: 2.5 } }}>
                             <Typography
-                              variant="body2"
+                              variant="body1"
                               component="div"
-                              fontWeight="600"
+                              fontWeight="500"
                               sx={{
-                                fontSize: { xs: "0.875rem", md: "0.95rem" },
-                                mb: 1,
-                                color: "#1a1a1a",
+                                fontSize: { xs: "0.9rem", md: "1rem" },
+                                mb: 1.5,
+                                color: "#2c2c2c",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 display: "-webkit-box",
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: "vertical",
-                                minHeight: "2.8em",
-                                lineHeight: 1.4,
+                                minHeight: { xs: "2.6em", md: "3em" },
+                                lineHeight: 1.5,
+                                letterSpacing: "0.01em",
                               }}
                             >
                               {collection.name}
                             </Typography>
 
-                            <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                               <Typography
                                 variant="h6"
-                                fontWeight="bold"
+                                fontWeight="700"
                                 sx={{
-                                  fontSize: { xs: "1.125rem", md: "1.25rem" },
+                                  fontSize: { xs: "1.25rem", md: "1.4rem" },
                                   color: "#1a1a1a",
+                                  letterSpacing: "-0.02em",
                                 }}
                               >
                                 ฿{collection.min_price.toLocaleString()}
                               </Typography>
                               <Typography
-                                variant="caption"
-                                color="text.secondary"
-                                sx={{ fontSize: "0.75rem" }}
+                                variant="body2"
+                                sx={{ 
+                                  fontSize: "0.8rem",
+                                  color: "text.secondary",
+                                  fontWeight: 500,
+                                }}
                               >
                                 起
                               </Typography>
@@ -662,9 +676,9 @@ export default function ExplorePage() {
                           </CardContent>
                         </Link>
                       </Card>
-                    </Box>
+                    </Grid>
                   ))}
-                </Box>
+                </Grid>
 
                 {/* Pagination */}
                 {totalPages > 1 && (
