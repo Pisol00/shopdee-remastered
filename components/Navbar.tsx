@@ -53,7 +53,7 @@ export default function Navbar() {
 
   const menuItems = [
     { label: "Home", href: "/" },
-    { label: "Shop", href: "/shop" },
+    { label: "Explore", href: "/explore" },
     { label: "New Arrivals", href: "/new-arrivals" },
     { label: "Best Sellers", href: "/best-sellers" },
     { label: "About", href: "/about" },
