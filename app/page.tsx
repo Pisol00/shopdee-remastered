@@ -70,14 +70,14 @@ export default function Home() {
     {
       id: 1,
       image: "/hero-homepage/hero-summer-collection.jpg",
-      title: "Summer Collection 2025",
+      title: "Summer Collection",
       subtitle: "Discover the latest trends",
       buttonText: "Shop Now",
       link: "/explore",
     },
     {
       id: 2,
-      image: "/hero-homepagehero-new-arrivals.jpg",
+      image: "/hero-homepage/hero-new-arrivals.jpg",
       title: "New Arrivals",
       subtitle: "Fresh styles just for you",
       buttonText: "Explore",
